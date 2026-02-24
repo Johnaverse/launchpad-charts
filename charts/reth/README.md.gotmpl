@@ -1,0 +1,93 @@
+{{ template "graphops.title" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "graphops.badges" . }}
+
+## Chart Features
+
+- Actively maintained by [GraphOps](https://graphops.xyz) and contributors
+- Strong security defaults (non-root execution, ready-only root filesystem, drops all capabilities)
+- Readiness checks to ensure traffic only hits `Pod`s that are healthy and ready to serve requests
+- Support for `ServiceMonitor`s to configure Prometheus to scrape metrics ([prometheus-operator](https://github.com/prometheus-operator/prometheus-operator))
+- Support for configuring Grafana dashboards ([grafana](https://github.com/grafana/helm-charts/tree/main/charts/grafana))
+- Support for exposing a NodePort to enable inbound P2P dials for better peering
+
+## Quickstart
+
+To install the chart with the release name `my-release`:
+
+```console
+$ helm repo add graphops http://graphops.github.io/launchpad-charts
+$ helm install my-release graphops/{{ template "chart.name" . }}
+```
+
+## Specifying the Engine API JWT
+
+To use Reth on a network that requires a Consensus Client, you will need to configure a JWT that is used by the Consensus Client to authenticate with the Engine API on port `8551`. You will need to pass the same JWT to your Consensus Client.
+
+You can specify the JWT for Reth either as a literal value, or as a reference to a key in an existing Kubernetes Secret. If you specify a literal value, it will be wrapped into a new Kubernetes Secret and passed into the Reth Pod.
+
+Using a literal value:
+
+```yaml
+# values.yaml
+
+reth:
+  jwt:
+    fromLiteral: some-secure-random-value-that-you-generate # You can generate this with: openssl rand -hex 32
+```
+
+Using an existing Kubernetes Secret:
+
+```yaml
+# values.yaml
+
+reth:
+  jwt:
+    existingSecret:
+      name: my-ethereum-mainnet-jwt-secret
+      key: jwt
+```
+
+## Configuring Reth
+
+Reth can be configured via CLI arguments and via a TOML configuration file. This chart supports both methods.
+
+### CLI Arguments
+
+You can pass additional CLI arguments using the `reth.extraArgs` value:
+
+```yaml
+# values.yaml
+
+reth:
+  extraArgs:
+    - "--log.file.filter=debug"
+    - "--log.file.directory=/data/logs"
+```
+
+### TOML Configuration
+
+You can provide a custom `reth.toml` configuration file using the `reth.config` value. See [Reth Configuration Documentation](https://reth.rs/run/configuration/) for all available options:
+
+```yaml
+# values.yaml
+
+reth:
+  config: |
+    [peers]
+    max_outbound = 100
+    max_inbound = 30
+    
+    [stages.headers]
+    downloader_max_concurrent_requests = 100
+```
+
+{{ template "graphops.upgradingSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "graphops.contributorsSection" . }}
