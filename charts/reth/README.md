@@ -7,8 +7,7 @@ Deploy and scale [Reth](https://github.com/paradigmxyz/reth) inside Kubernetes w
 ## Chart Features
 
 - Actively maintained by [GraphOps](https://graphops.xyz) and contributors
-- Strong security defaults (non-root execution, read-only root filesystem, drops all capabilities)
-- Readiness checks to ensure traffic only hits `Pod`s that are healthy and ready to serve requests
+- Strong security defaults (non-root execution, dropped capabilities)
 - Support for `ServiceMonitor`s to configure Prometheus to scrape metrics ([prometheus-operator](https://github.com/prometheus-operator/prometheus-operator))
 - Support for configuring Grafana dashboards ([grafana](https://github.com/grafana/helm-charts/tree/main/charts/grafana))
 - Support for exposing a NodePort to enable inbound P2P dials for better peering
@@ -121,7 +120,7 @@ We do not recommend that you upgrade the application by overriding `image.tag`. 
  | rbac.clusterRules | Required ClusterRole rules | list | See `values.yaml` |
  | rbac.create | Specifies whether RBAC resources are to be created | bool | `true` |
  | rbac.rules | Required ClusterRole rules | list | See `values.yaml` |
- | reth.affinity |  | object | `{}` |
+ | reth.affinity | Custom affinity rules. Note: If you define a podAntiAffinity section here and also enable affinityPresets.antiAffinityByHostname, the preset's podAntiAffinity will take precedence. To use both, disable the preset and define your complete affinity configuration here. | object | `{}` |
  | reth.affinityPresets.antiAffinityByHostname | Configure anti-affinity rules to prevent multiple Reth instances on the same host | bool | `true` |
  | reth.authrpc | Engine API configuration (for consensus client) | object | `{"addr":"0.0.0.0","jwtsecret":"/data/jwt.hex","port":8551}` |
  | reth.authrpc.addr | Engine API listening address | string | `"0.0.0.0"` |
@@ -140,6 +139,7 @@ We do not recommend that you upgrade the application by overriding `image.tag`. 
  | reth.jwt.existingSecret.key | Data key for the JWT in the Secret | string | `nil` |
  | reth.jwt.existingSecret.name | Name of the Secret resource in the same namespace | string | `nil` |
  | reth.jwt.fromLiteral | Use this literal value for the JWT | string | `nil` |
+ | reth.livenessProbe | Sets a livenessProbe configuration for the container | object | `{}` |
  | reth.metrics | Metrics configuration | object | `{"addr":"0.0.0.0","enabled":true,"port":9001}` |
  | reth.metrics.addr | Metrics listening address | string | `"0.0.0.0"` |
  | reth.metrics.enabled | Enable metrics | bool | `true` |
@@ -156,6 +156,7 @@ We do not recommend that you upgrade the application by overriding `image.tag`. 
  | reth.p2pNodePort.port | NodePort to be used. Must be unique. | int | `31000` |
  | reth.podAnnotations | Annotations for the `Pod` | object | `{}` |
  | reth.podSecurityContext | Pod-wide security context | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000}` |
+ | reth.readinessProbe | Sets a readinessProbe configuration for the container | object | `{}` |
  | reth.resources |  | object | `{}` |
  | reth.rpc | RPC configuration | object | `{"addr":"0.0.0.0","api":"eth,net,web3","corsdomain":"*","enabled":true,"port":8545}` |
  | reth.rpc.addr | HTTP RPC server listening address | string | `"0.0.0.0"` |
@@ -169,6 +170,7 @@ We do not recommend that you upgrade the application by overriding `image.tag`. 
  | reth.service.ports.ws | Service Port to expose WebSocket interface on | int | `8546` |
  | reth.service.topologyAwareRouting.enabled | Toggle for topology aware routing | bool | `false` |
  | reth.service.type |  | string | `"ClusterIP"` |
+ | reth.startupProbe | Sets a startupProbe configuration for the container | object | `{}` |
  | reth.terminationGracePeriodSeconds | Amount of time to wait before force-killing the Reth process | int | `300` |
  | reth.tolerations |  | list | `[]` |
  | reth.volumeClaimSpec | [PersistentVolumeClaimSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#persistentvolumeclaimspec-v1-core) for Reth storage | object | `{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"2Ti"}},"storageClassName":null}` |

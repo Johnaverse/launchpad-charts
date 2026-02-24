@@ -220,6 +220,29 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- if $values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml $values.readinessProbe | nindent 12 }}
+          {{- else if $values.rpc.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http-jsonrpc
+              httpHeaders:
+                - name: Content-Type
+                  value: application/json
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 3
+          {{- end }}
+          {{- if $values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml $values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if $values.startupProbe }}
+          startupProbe:
+            {{- toYaml $values.startupProbe | nindent 12 }}
+          {{- end }}
       {{- with $values.extraContainers }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
