@@ -227,12 +227,12 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with $values.affinity }}
+      {{- if or $values.affinity $values.affinityPresets.antiAffinityByHostname }}
       affinity:
+      {{- with $values.affinity }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if $values.affinityPresets.antiAffinityByHostname }}
-      affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -246,6 +246,7 @@ spec:
                     values:
                       - {{ $componentName }}
               topologyKey: kubernetes.io/hostname
+      {{- end }}
       {{- end }}
       {{- with $values.tolerations }}
       tolerations:
