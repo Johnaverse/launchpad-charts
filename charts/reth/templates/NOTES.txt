@@ -1,10 +1,14 @@
 Reth has been deployed as a StatefulSet.
+{{- if .Values.reth.rpc.enabled }}
 
 To connect to JSON-RPC:
   kubectl port-forward svc/{{ include "reth.fullname" . }}-reth {{ .Values.reth.rpc.port }}:{{ .Values.reth.rpc.port }} -n {{ .Release.Namespace }}
+{{- end }}
+{{- if or .Values.reth.jwt.existingSecret.name .Values.reth.jwt.fromLiteral }}
 
 To connect to the Engine API:
   kubectl port-forward svc/{{ include "reth.fullname" . }}-reth {{ .Values.reth.authrpc.port }}:{{ .Values.reth.authrpc.port }} -n {{ .Release.Namespace }}
+{{- end }}
 
 To view logs:
   kubectl logs -f sts/{{ include "reth.fullname" . }}-reth -n {{ .Release.Namespace }}

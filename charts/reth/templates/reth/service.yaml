@@ -69,12 +69,30 @@ metadata:
 spec:
   type: {{ $values.service.type }}
   ports:
-    {{- range $portName, $portNumber := $values.service.ports }}
-    - port: {{ $portNumber }}
-      targetPort: {{ $portName }}
+  {{- if $values.rpc.enabled }}
+    - port: {{ $values.rpc.port }}
+      targetPort: http-jsonrpc
       protocol: TCP
-      name: {{ $portName }}
-    {{- end }}
+      name: http-jsonrpc
+  {{- end }}
+  {{- if $values.ws.enabled }}
+    - port: {{ $values.ws.port }}
+      targetPort: ws
+      protocol: TCP
+      name: ws
+  {{- end }}
+  {{- if $jwtEnabled }}
+    - port: {{ $values.authrpc.port }}
+      targetPort: http-engineapi
+      protocol: TCP
+      name: http-engineapi
+  {{- end }}
+  {{- if $values.metrics.enabled }}
+    - port: {{ $values.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: http-metrics
+  {{- end }}
   selector:
     {{- include "reth.selectorLabels" . | nindent 4 }}
     {{- $componentLabel | nindent 4 }}

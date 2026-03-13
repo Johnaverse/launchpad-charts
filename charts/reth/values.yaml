@@ -123,7 +123,7 @@ reth:
   # -- The path to the Reth data directory
   datadir: /data
 
-  # -- Chain to sync (mainnet, sepolia, goerli, holesky, etc.)
+  # -- Chain to sync (mainnet, sepolia, holesky, etc.)
   chain: mainnet
 
   # -- Enable full node (archive mode if false)
@@ -162,7 +162,7 @@ reth:
     # -- Engine API listening port
     port: 8551
     # -- JWT secret path
-    jwtsecret: /data/jwt.hex
+    jwtsecret: /jwt/jwt.hex
 
   # -- Metrics configuration
   metrics:
