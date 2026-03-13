@@ -1,6 +1,7 @@
 {{- $values := $.Values.reth }}
 {{- $componentName := "reth"}}
 {{- $componentLabel := include "reth.componentLabelFor" $componentName }}
+{{- $jwtEnabled := or $values.jwt.existingSecret.name $values.jwt.fromLiteral }}
 
 apiVersion: v1
 kind: Service
@@ -9,7 +10,6 @@ metadata:
   labels:
     {{- include "reth.labels" . | nindent 4 }}
     {{- $componentLabel | nindent 4 }}
-{{- $jwtEnabled := or $values.jwt.existingSecret.name $values.jwt.fromLiteral }}
 spec:
   clusterIP: None # Headless service
   publishNotReadyAddresses: false

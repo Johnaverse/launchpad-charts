@@ -33,4 +33,5 @@ spec:
     matchLabels:
       {{- include "reth.selectorLabels" . | nindent 6 }}
       {{- $componentLabel | nindent 6 }}
+      serviceMonitorTarget: "true"
 {{- end }}

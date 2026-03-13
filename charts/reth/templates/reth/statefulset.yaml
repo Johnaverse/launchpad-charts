@@ -63,7 +63,7 @@ spec:
               - key: {{ $jwtSecretKey }}
                 path: jwt.hex
       {{- end }}
-      {{- if $values.config }}
+      {{- if ($values.config | trim) }}
         - name: config
           configMap:
             name: {{ include "reth.fullname" . }}-{{ $componentName }}-config
@@ -179,7 +179,7 @@ spec:
               {{- if $values.p2pNodePort.enabled }}
                 --nat=extip:$EXTERNAL_IP \
               {{- end }}
-              {{- if $values.config }}
+              {{- if ($values.config | trim) }}
                 --config=/config/reth.toml \
               {{- end }}
               {{- range $values.extraArgs }}
@@ -224,7 +224,7 @@ spec:
               subPath: jwt.hex
               readOnly: true
           {{- end }}
-          {{- if $values.config }}
+          {{- if ($values.config | trim) }}
             - name: config
               mountPath: /config
               readOnly: true
@@ -237,7 +237,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if $values.readinessProbe }}
+          {{- if gt (len $values.readinessProbe) 0 }}
           readinessProbe:
             {{- toYaml $values.readinessProbe | nindent 12 }}
           {{- else if $values.rpc.enabled }}
@@ -248,11 +248,11 @@ spec:
             periodSeconds: 30
             timeoutSeconds: 3
           {{- end }}
-          {{- if $values.livenessProbe }}
+          {{- if gt (len $values.livenessProbe) 0 }}
           livenessProbe:
             {{- toYaml $values.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if $values.startupProbe }}
+          {{- if gt (len $values.startupProbe) 0 }}
           startupProbe:
             {{- toYaml $values.startupProbe | nindent 12 }}
           {{- end }}
@@ -287,7 +287,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- if $values.config }}
+{{- if ($values.config | trim) }}
 ---
 apiVersion: v1
 kind: ConfigMap
