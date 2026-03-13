@@ -104,6 +104,16 @@ reth:
     # -- Use this literal value for the JWT
     fromLiteral: null
 
+  # -- Init container used to set data directory permissions
+  initChownData:
+    image:
+      # -- Container image for the init chown container
+      repository: docker.io/busybox
+      # -- Container tag
+      tag: "1.37.0"
+      # -- Container pull policy
+      pullPolicy: IfNotPresent
+
   # -- Additional CLI arguments to pass to `reth node`
   extraArgs: []
 
@@ -188,7 +198,7 @@ reth:
   volumeClaimSpec:
     accessModes: ["ReadWriteOnce"]
     # -- The storage class to use when provisioning a persistent volume for Reth
-    storageClassName: 
+    # storageClassName: ""
     resources:
       requests:
         # -- The amount of disk space to provision for Reth
@@ -203,7 +213,7 @@ reth:
   # Probes configuration for the containers in the StatefulSet
   # Users can directly define readiness, liveness, and startup probes below.
   # These will be directly copied into the StatefulSet manifest.
-  # If not defined, a default HTTP readiness probe will be used.
+  # If not defined, a default tcpSocket readiness probe will be used on the RPC port.
 
   # -- Sets a readinessProbe configuration for the container
   readinessProbe: {}
@@ -281,6 +291,10 @@ reth:
         tag: v1.25.4
         # -- Container pull policy
         pullPolicy: IfNotPresent
+
+  # -- Update strategy for the StatefulSet
+  # updateStrategy:
+  #   type: RollingUpdate
 
   # -- Additional init containers
   extraInitContainers: []

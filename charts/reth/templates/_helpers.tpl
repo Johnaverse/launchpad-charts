@@ -65,18 +65,10 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-{{- define "reth.p2pPort" -}}
-{{- if .p2pNodePort.enabled }}
-{{- print .p2pNodePort.port }}
-{{- else }}
-{{- print (.p2p.port | default 30303) -}}
-{{- end }}
-{{- end -}}
-
 {{- define "reth.replicas" -}}
 {{- if .p2pNodePort.enabled }}
 {{- print 1 }}
-{{ else }}
-{{- default 1 .replicaCount  }}
-{{- end}}
+{{- else }}
+{{- default 1 .replicaCount }}
+{{- end }}
 {{- end -}}

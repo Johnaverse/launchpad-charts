@@ -16,6 +16,10 @@ metadata:
 spec:
   serviceName: {{ include "reth.fullname" . }}-{{ $componentName }}-headless
   replicas: {{ include "reth.replicas" $values }}
+  {{- if $values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml $values.updateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "reth.selectorLabels" . | nindent 6 }}
@@ -70,8 +74,8 @@ spec:
       {{- end }}
       initContainers:
         - name: set-permissions
-          image: docker.io/busybox:1.37.0
-          imagePullPolicy: IfNotPresent
+          image: "{{ $values.initChownData.image.repository }}:{{ $values.initChownData.image.tag }}"
+          imagePullPolicy: {{ $values.initChownData.image.pullPolicy }}
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
@@ -238,12 +242,8 @@ spec:
             {{- toYaml $values.readinessProbe | nindent 12 }}
           {{- else if $values.rpc.enabled }}
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http-jsonrpc
-              httpHeaders:
-                - name: Content-Type
-                  value: application/json
             initialDelaySeconds: 60
             periodSeconds: 30
             timeoutSeconds: 3
