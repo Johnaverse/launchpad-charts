@@ -90,6 +90,9 @@ grafana:
     extraSpec: {}
 
 reth:
+  # -- Number of replicas (only 1 if p2pNodePort is enabled)
+  replicaCount: 1
+
   # -- JWT for clients to authenticate with the Engine API. Specify either `existingSecret` OR `fromLiteral`.
   jwt:
     # -- Load the JWT from an existing Kubernetes Secret. Takes precedence over `fromLiteral` if set.

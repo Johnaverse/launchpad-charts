@@ -69,7 +69,7 @@ Create the name of the service account to use
 {{- if .p2pNodePort.enabled }}
 {{- print .p2pNodePort.port }}
 {{- else }}
-{{- printf "30303" -}}
+{{- print (.p2p.port | default 30303) -}}
 {{- end }}
 {{- end -}}
 

@@ -127,6 +127,11 @@ spec:
         - name: {{ $componentName }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          securityContext:
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           command:
             - sh
             - -ac
@@ -178,18 +183,26 @@ spec:
               {{- end }}
                 --log.stdout.format=json
           ports:
+          {{- if $values.rpc.enabled }}
             - name: http-jsonrpc
               containerPort: {{ $values.rpc.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $values.ws.enabled }}
             - name: ws
               containerPort: {{ $values.ws.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $jwtEnabled }}
             - name: http-engineapi
               containerPort: {{ $values.authrpc.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $values.metrics.enabled }}
             - name: http-metrics
               containerPort: {{ $values.metrics.port }}
               protocol: TCP
+          {{- end }}
             - name: p2p-tcp
               containerPort: {{ $values.p2p.port }}
               protocol: TCP
@@ -203,7 +216,7 @@ spec:
               mountPath: /tmp
           {{- if $jwtEnabled }}
             - name: jwt
-              mountPath: /data/jwt.hex
+              mountPath: {{ $values.authrpc.jwtsecret }}
               subPath: jwt.hex
               readOnly: true
           {{- end }}
@@ -252,10 +265,9 @@ spec:
       {{- end }}
       {{- if or $values.affinity $values.affinityPresets.antiAffinityByHostname }}
       affinity:
-      {{- with $values.affinity }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if $values.affinityPresets.antiAffinityByHostname }}
+      {{- if $values.affinity }}
+        {{- toYaml $values.affinity | nindent 8 }}
+      {{- else if $values.affinityPresets.antiAffinityByHostname }}
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:

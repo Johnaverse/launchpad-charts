@@ -23,8 +23,8 @@ spec:
   instanceSelector:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with $.Values.grafana.operatorDashboards.allowCrossNamespaceImport }}
-  allowCrossNamespaceImport: {{ . }}
+  {{- if not (kindIs "invalid" $.Values.grafana.operatorDashboards.allowCrossNamespaceImport) }}
+  allowCrossNamespaceImport: {{ $.Values.grafana.operatorDashboards.allowCrossNamespaceImport }}
   {{- end }}
   {{- with $.Values.grafana.operatorDashboards.folder }}
   folder: {{ . }}
