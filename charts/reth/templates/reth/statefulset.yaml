@@ -16,6 +16,10 @@ metadata:
 spec:
   serviceName: {{ include "reth.fullname" . }}-{{ $componentName }}-headless
   replicas: {{ include "reth.replicas" $values }}
+  {{- if $values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml $values.updateStrategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "reth.selectorLabels" . | nindent 6 }}
@@ -59,7 +63,7 @@ spec:
               - key: {{ $jwtSecretKey }}
                 path: jwt.hex
       {{- end }}
-      {{- if $values.config }}
+      {{- if ($values.config | trim) }}
         - name: config
           configMap:
             name: {{ include "reth.fullname" . }}-{{ $componentName }}-config
@@ -70,8 +74,8 @@ spec:
       {{- end }}
       initContainers:
         - name: set-permissions
-          image: docker.io/busybox:1.37.0
-          imagePullPolicy: IfNotPresent
+          image: "{{ $values.initChownData.image.repository }}:{{ $values.initChownData.image.tag }}"
+          imagePullPolicy: {{ $values.initChownData.image.pullPolicy }}
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
@@ -127,6 +131,11 @@ spec:
         - name: {{ $componentName }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          securityContext:
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           command:
             - sh
             - -ac
@@ -170,7 +179,7 @@ spec:
               {{- if $values.p2pNodePort.enabled }}
                 --nat=extip:$EXTERNAL_IP \
               {{- end }}
-              {{- if $values.config }}
+              {{- if ($values.config | trim) }}
                 --config=/config/reth.toml \
               {{- end }}
               {{- range $values.extraArgs }}
@@ -178,18 +187,26 @@ spec:
               {{- end }}
                 --log.stdout.format=json
           ports:
+          {{- if $values.rpc.enabled }}
             - name: http-jsonrpc
               containerPort: {{ $values.rpc.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $values.ws.enabled }}
             - name: ws
               containerPort: {{ $values.ws.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $jwtEnabled }}
             - name: http-engineapi
               containerPort: {{ $values.authrpc.port }}
               protocol: TCP
+          {{- end }}
+          {{- if $values.metrics.enabled }}
             - name: http-metrics
               containerPort: {{ $values.metrics.port }}
               protocol: TCP
+          {{- end }}
             - name: p2p-tcp
               containerPort: {{ $values.p2p.port }}
               protocol: TCP
@@ -203,11 +220,11 @@ spec:
               mountPath: /tmp
           {{- if $jwtEnabled }}
             - name: jwt
-              mountPath: /data/jwt.hex
+              mountPath: {{ $values.authrpc.jwtsecret }}
               subPath: jwt.hex
               readOnly: true
           {{- end }}
-          {{- if $values.config }}
+          {{- if ($values.config | trim) }}
             - name: config
               mountPath: /config
               readOnly: true
@@ -220,26 +237,22 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if $values.readinessProbe }}
+          {{- if gt (len $values.readinessProbe) 0 }}
           readinessProbe:
             {{- toYaml $values.readinessProbe | nindent 12 }}
           {{- else if $values.rpc.enabled }}
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http-jsonrpc
-              httpHeaders:
-                - name: Content-Type
-                  value: application/json
             initialDelaySeconds: 60
             periodSeconds: 30
             timeoutSeconds: 3
           {{- end }}
-          {{- if $values.livenessProbe }}
+          {{- if gt (len $values.livenessProbe) 0 }}
           livenessProbe:
             {{- toYaml $values.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- if $values.startupProbe }}
+          {{- if gt (len $values.startupProbe) 0 }}
           startupProbe:
             {{- toYaml $values.startupProbe | nindent 12 }}
           {{- end }}
@@ -252,10 +265,9 @@ spec:
       {{- end }}
       {{- if or $values.affinity $values.affinityPresets.antiAffinityByHostname }}
       affinity:
-      {{- with $values.affinity }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if $values.affinityPresets.antiAffinityByHostname }}
+      {{- if $values.affinity }}
+        {{- toYaml $values.affinity | nindent 8 }}
+      {{- else if $values.affinityPresets.antiAffinityByHostname }}
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -275,7 +287,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- if $values.config }}
+{{- if ($values.config | trim) }}
 ---
 apiVersion: v1
 kind: ConfigMap
