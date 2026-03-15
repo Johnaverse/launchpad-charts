@@ -1,0 +1,50 @@
+{{- if .Values.grafana.operatorDashboards.enabled }}
+{{- $labels := .Values.grafana.operatorDashboards.labels | default dict }}
+{{- $annotations := .Values.grafana.operatorDashboards.annotations | default dict }}
+{{- range $path, $_ := .Files.Glob "dashboards/*.json" }}
+{{- $dashName := trimSuffix ".json" (base $path) }}
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: {{ include "reth.fullname" $ }}-{{ $dashName }}
+  namespace: {{ default $.Release.Namespace $.Values.grafana.operatorDashboards.namespace }}
+  labels:
+    {{- include "reth.labels" $ | nindent 4 }}
+    {{- with $labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with $.Values.grafana.operatorDashboards.instanceSelector }}
+  instanceSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if not (kindIs "invalid" $.Values.grafana.operatorDashboards.allowCrossNamespaceImport) }}
+  allowCrossNamespaceImport: {{ $.Values.grafana.operatorDashboards.allowCrossNamespaceImport }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.folder }}
+  folder: {{ . }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.folderUID }}
+  folderUID: {{ . }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.uid }}
+  uid: {{ . }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.resyncPeriod }}
+  resyncPeriod: {{ . }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.suspend }}
+  suspend: {{ . }}
+  {{- end }}
+  {{- with $.Values.grafana.operatorDashboards.extraSpec }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  json: |
+{{ $.Files.Get $path | indent 4 }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,37 @@
+{{- $values := $.Values.reth }}
+{{- $componentName := "reth"}}
+{{- $componentLabel := include "reth.componentLabelFor" $componentName }}
+{{- if .Values.prometheus.serviceMonitors.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "reth.fullname" . }}-{{ $componentName }}
+  labels:
+    {{- include "reth.labels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+    {{- with .Values.prometheus.serviceMonitors.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  endpoints:
+    - port: http-metrics
+      {{- with .Values.prometheus.serviceMonitors.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with .Values.prometheus.serviceMonitors.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+      {{- with .Values.prometheus.serviceMonitors.relabelings }}
+      relabelings:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  jobLabel: {{ include "reth.name" . }}-{{ $componentName }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "reth.selectorLabels" . | nindent 6 }}
+      {{- $componentLabel | nindent 6 }}
+      serviceMonitorTarget: "true"
+{{- end }}

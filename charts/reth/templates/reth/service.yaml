@@ -1,0 +1,105 @@
+{{- $values := $.Values.reth }}
+{{- $componentName := "reth"}}
+{{- $componentLabel := include "reth.componentLabelFor" $componentName }}
+{{- $jwtEnabled := or $values.jwt.existingSecret.name $values.jwt.fromLiteral }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "reth.fullname" . }}-{{ $componentName }}-headless
+  labels:
+    {{- include "reth.labels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+spec:
+  clusterIP: None # Headless service
+  publishNotReadyAddresses: false
+  ports:
+  {{- if $values.rpc.enabled }}
+    - port: {{ $values.rpc.port }}
+      targetPort: http-jsonrpc
+      protocol: TCP
+      name: http-jsonrpc
+  {{- end }}
+  {{- if $values.ws.enabled }}
+    - port: {{ $values.ws.port }}
+      targetPort: ws
+      protocol: TCP
+      name: ws
+  {{- end }}
+  {{- if $jwtEnabled }}
+    - port: {{ $values.authrpc.port }}
+      targetPort: http-engineapi
+      protocol: TCP
+      name: http-engineapi
+  {{- end }}
+  {{- if $values.metrics.enabled }}
+    - port: {{ $values.metrics.port }}
+      targetPort: http-metrics
+      protocol: TCP
+      name: http-metrics
+  {{- end }}
+    - port: {{ $values.p2p.port }}
+      targetPort: p2p-tcp
+      protocol: TCP
+      name: p2p-tcp
+    - port: {{ $values.p2p.port }}
+      targetPort: p2p-udp
+      protocol: UDP
+      name: p2p-udp
+  selector:
+    {{- include "reth.selectorLabels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "reth.fullname" . }}-{{ $componentName }}
+  {{- if $values.service.topologyAwareRouting.enabled }}
+  annotations:
+    {{- if semverCompare ">= 1.27-0" .Capabilities.KubeVersion.GitVersion }}
+    service.kubernetes.io/topology-mode: "auto"
+    {{- else }}
+    service.kubernetes.io/topology-aware-hints: "auto"
+    {{- end }}
+  {{- end }}
+  labels:
+    {{- include "reth.labels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+    serviceMonitorTarget: "true"
+spec:
+  type: {{ $values.service.type }}
+  ports:
+    {{- range $portName, $portNumber := $values.service.ports }}
+    - port: {{ $portNumber }}
+      targetPort: {{ $portName }}
+      protocol: TCP
+      name: {{ $portName }}
+    {{- end }}
+  selector:
+    {{- include "reth.selectorLabels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+{{- if $values.p2pNodePort.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "reth.fullname" . }}-{{ $componentName }}-p2p-nodeport
+  labels:
+    {{- include "reth.labels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+    - port: {{ $values.p2p.port }}
+      nodePort: {{ $values.p2pNodePort.port }}
+      name: p2p-tcp
+      protocol: TCP
+    - port: {{ $values.p2p.port }}
+      nodePort: {{ $values.p2pNodePort.port }}
+      name: p2p-udp
+      protocol: UDP
+  selector:
+    {{- include "reth.selectorLabels" . | nindent 4 }}
+    {{- $componentLabel | nindent 4 }}
+{{- end }}
