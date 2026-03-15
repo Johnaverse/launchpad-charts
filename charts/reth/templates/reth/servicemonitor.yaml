@@ -9,10 +9,13 @@ metadata:
   labels:
     {{- include "reth.labels" . | nindent 4 }}
     {{- $componentLabel | nindent 4 }}
-    {{- with .Values.prometheus.serviceMonitors.labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
 spec:
+  jobLabel: "{{ .Release.Name }}"
+  selector:
+    matchLabels:
+      {{- include "reth.selectorLabels" . | nindent 6 }}
+      {{- $componentLabel | nindent 6 }}
+      serviceMonitorTarget: "true"
   endpoints:
     - port: http-metrics
       {{- with .Values.prometheus.serviceMonitors.interval }}
@@ -21,17 +24,9 @@ spec:
       {{- with .Values.prometheus.serviceMonitors.scrapeTimeout }}
       scrapeTimeout: {{ . }}
       {{- end }}
-      {{- with .Values.prometheus.serviceMonitors.relabelings }}
+      honorLabels: true
+      {{- if .Values.prometheus.serviceMonitors.relabelings }}
       relabelings:
-        {{- toYaml . | nindent 8 }}
+      {{- toYaml .Values.prometheus.serviceMonitors.relabelings | nindent 8 }}
       {{- end }}
-  jobLabel: {{ include "reth.name" . }}-{{ $componentName }}
-  namespaceSelector:
-    matchNames:
-      - {{ .Release.Namespace }}
-  selector:
-    matchLabels:
-      {{- include "reth.selectorLabels" . | nindent 6 }}
-      {{- $componentLabel | nindent 6 }}
-      serviceMonitorTarget: "true"
 {{- end }}

@@ -99,7 +99,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{version}}",
           "range": false,
@@ -169,7 +169,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{build_timestamp}}",
           "range": false,
@@ -239,7 +239,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{git_sha}}",
           "range": false,
@@ -309,7 +309,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{build_profile}}",
           "range": false,
@@ -379,7 +379,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{target_triple}}",
           "range": false,
@@ -449,7 +449,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_info{$instance_label=\"$instance\"}",
+          "expr": "reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "{{cargo_features}}",
           "range": false,
@@ -528,7 +528,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_network_connected_peers{$instance_label=\"$instance\"}",
+          "expr": "reth_network_connected_peers{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -604,7 +604,7 @@
           },
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "max by (stage) (reth_sync_checkpoint{$instance_label=\"$instance\"})",
+          "expr": "max by (stage) (reth_sync_checkpoint{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": true,
           "legendFormat": "{{stage}}",
           "range": false,
@@ -706,7 +706,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(reth_db_table_size{$instance_label=\"$instance\"})",
+          "expr": "sum(reth_db_table_size{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "legendFormat": "Database",
           "range": true,
           "refId": "A"
@@ -717,7 +717,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(reth_db_freelist{$instance_label=\"$instance\"} * reth_db_page_size{$instance_label=\"$instance\"})",
+          "expr": "sum(reth_db_freelist{namespace=~\"$namespace\", instance=~\"$instance\"} * reth_db_page_size{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "Freelist",
@@ -730,7 +730,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(reth_static_files_segment_size{$instance_label=\"$instance\"})",
+          "expr": "sum(reth_static_files_segment_size{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "hide": false,
           "instant": false,
           "legendFormat": "Static Files",
@@ -743,7 +743,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "(sum(reth_rocksdb_table_size{$instance_label=\"$instance\"}) or vector(0)) + (sum(reth_rocksdb_wal_size{$instance_label=\"$instance\"}) or vector(0))",
+          "expr": "(sum(reth_rocksdb_table_size{namespace=~\"$namespace\", instance=~\"$instance\"}) or vector(0)) + (sum(reth_rocksdb_wal_size{namespace=~\"$namespace\", instance=~\"$instance\"}) or vector(0))",
           "hide": false,
           "instant": false,
           "legendFormat": "RocksDB",
@@ -756,7 +756,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(reth_db_table_size{$instance_label=\"$instance\"}) + sum(reth_db_freelist{$instance_label=\"$instance\"} * reth_db_page_size{$instance_label=\"$instance\"}) + sum(reth_static_files_segment_size{$instance_label=\"$instance\"}) + (sum(reth_rocksdb_table_size{$instance_label=\"$instance\"}) or vector(0)) + (sum(reth_rocksdb_wal_size{$instance_label=\"$instance\"}) or vector(0))",
+          "expr": "sum(reth_db_table_size{namespace=~\"$namespace\", instance=~\"$instance\"}) + sum(reth_db_freelist{namespace=~\"$namespace\", instance=~\"$instance\"} * reth_db_page_size{namespace=~\"$namespace\", instance=~\"$instance\"}) + sum(reth_static_files_segment_size{namespace=~\"$namespace\", instance=~\"$instance\"}) + (sum(reth_rocksdb_table_size{namespace=~\"$namespace\", instance=~\"$instance\"}) or vector(0)) + (sum(reth_rocksdb_wal_size{namespace=~\"$namespace\", instance=~\"$instance\"}) or vector(0))",
           "hide": false,
           "instant": false,
           "legendFormat": "Total",
@@ -856,7 +856,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "avg by (stage) (reth_sync_entities_processed{$instance_label=\"$instance\"} / reth_sync_entities_total{$instance_label=\"$instance\"})",
+          "expr": "avg by (stage) (reth_sync_entities_processed{namespace=~\"$namespace\", instance=~\"$instance\"} / reth_sync_entities_total{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "legendFormat": "{{stage}}",
           "range": true,
           "refId": "A"
@@ -954,7 +954,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "max by (stage) (reth_sync_checkpoint{$instance_label=\"$instance\"})",
+          "expr": "max by (stage) (reth_sync_checkpoint{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "legendFormat": "{{stage}}",
           "range": true,
           "refId": "A"
@@ -1076,7 +1076,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{$instance_label=\"$instance\", quantile=\"0\"}",
+          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1092,7 +1092,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1108,7 +1108,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1124,7 +1124,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1140,7 +1140,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_consensus_engine_beacon_forkchoice_updated_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1266,7 +1266,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_latency{$instance_label=\"$instance\", quantile=\"0\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1282,7 +1282,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_latency{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1298,7 +1298,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_latency{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1314,7 +1314,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_latency{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1330,7 +1330,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_latency{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_latency{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1430,7 +1430,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "legendFormat": "p50",
           "range": true,
           "refId": "A"
@@ -1441,7 +1441,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "hide": false,
           "legendFormat": "p90",
           "range": true,
@@ -1453,7 +1453,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "hide": false,
           "legendFormat": "p95",
           "range": true,
@@ -1465,7 +1465,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_total_gas{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "hide": false,
           "legendFormat": "p99",
           "range": true,
@@ -1562,7 +1562,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "legendFormat": "p50",
           "range": true,
           "refId": "A"
@@ -1573,7 +1573,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "hide": false,
           "legendFormat": "p90",
           "range": true,
@@ -1585,7 +1585,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "hide": false,
           "legendFormat": "p95",
           "range": true,
@@ -1597,7 +1597,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "hide": false,
           "legendFormat": "p99",
           "range": true,
@@ -1694,7 +1694,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}",
+          "expr": "reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Gas/s",
           "range": true,
           "refId": "A"
@@ -1706,7 +1706,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[1m])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[1m])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1722,7 +1722,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[5m])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[5m])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1738,7 +1738,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[10m])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[10m])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1754,7 +1754,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[30m])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[30m])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1770,7 +1770,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[1h])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[1h])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1786,7 +1786,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg_over_time(reth_sync_execution_gas_per_second{$instance_label=\"$instance\"}[24h])",
+          "expr": "avg_over_time(reth_sync_execution_gas_per_second{namespace=~\"$namespace\", instance=~\"$instance\"}[24h])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1890,7 +1890,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_sync_block_validation_state_root_duration{$instance_label=\"$instance\"}",
+          "expr": "reth_sync_block_validation_state_root_duration{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -1906,7 +1906,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_sync_execution_execution_duration{$instance_label=\"$instance\"}",
+          "expr": "reth_sync_execution_execution_duration{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2024,7 +2024,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_consensus_engine_beacon_forkchoice_updated_messages{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_consensus_engine_beacon_forkchoice_updated_messages{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "forkchoiceUpdated",
           "range": true,
           "refId": "A"
@@ -2035,7 +2035,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_consensus_engine_beacon_new_payload_messages{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_consensus_engine_beacon_new_payload_messages{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "newPayload",
           "range": true,
@@ -2136,7 +2136,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_consensus_engine_beacon_failed_new_payload_response_deliveries{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_consensus_engine_beacon_failed_new_payload_response_deliveries{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "newPayload",
           "range": true,
           "refId": "A"
@@ -2147,7 +2147,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_consensus_engine_beacon_failed_forkchoice_updated_response_deliveries{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_consensus_engine_beacon_failed_forkchoice_updated_response_deliveries{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "forkchoiceUpdated",
           "range": true,
           "refId": "B"
@@ -2247,7 +2247,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_consensus_engine_beacon_new_payload_forkchoice_updated_time_diff{$instance_label=\"$instance\"}",
+          "expr": "reth_consensus_engine_beacon_new_payload_forkchoice_updated_time_diff{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "p{{quantile}}",
           "range": true,
           "refId": "A"
@@ -2348,7 +2348,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{$instance_label=\"$instance\", quantile=\"0\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2364,7 +2364,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2380,7 +2380,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2396,7 +2396,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2412,7 +2412,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_hash_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2428,7 +2428,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{$instance_label=\"$instance\", quantile=\"0\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2444,7 +2444,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2460,7 +2460,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{$instance_label=\"$instance\", quantile=\"0.9\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.9\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2476,7 +2476,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2492,7 +2492,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_engine_rpc_get_payload_bodies_by_range_v1{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2591,7 +2591,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_engine_rpc_blobs_blob_count{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_engine_rpc_blobs_blob_count{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "Found",
           "range": true,
           "refId": "A"
@@ -2602,7 +2602,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_engine_rpc_blobs_blob_misses{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_engine_rpc_blobs_blob_misses{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Missed",
           "range": true,
@@ -2703,7 +2703,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_blobs_v2{$instance_label=\"$instance\", quantile=\"0.5\"}",
+          "expr": "reth_engine_rpc_get_blobs_v2{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.5\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2719,7 +2719,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_blobs_v2{$instance_label=\"$instance\", quantile=\"0.95\"}",
+          "expr": "reth_engine_rpc_get_blobs_v2{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.95\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2735,7 +2735,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_blobs_v2{$instance_label=\"$instance\", quantile=\"0.99\"}",
+          "expr": "reth_engine_rpc_get_blobs_v2{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0.99\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2751,7 +2751,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_blobs_v2{$instance_label=\"$instance\", quantile=\"0\"}",
+          "expr": "reth_engine_rpc_get_blobs_v2{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"0\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2767,7 +2767,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_engine_rpc_get_blobs_v2{$instance_label=\"$instance\", quantile=\"1\"}",
+          "expr": "reth_engine_rpc_get_blobs_v2{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"1\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -2870,7 +2870,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_consensus_engine_beacon_pipeline_runs{$instance_label=\"$instance\"}",
+          "expr": "reth_consensus_engine_beacon_pipeline_runs{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Pipeline runs",
           "range": true,
           "refId": "A"
@@ -2969,7 +2969,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_consensus_engine_beacon_active_block_downloads{$instance_label=\"$instance\"}",
+          "expr": "reth_consensus_engine_beacon_active_block_downloads{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Active block downloads",
           "range": true,
           "refId": "A"
@@ -3083,7 +3083,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_sync_block_validation_state_root_duration{$instance_label=\"$instance\"}",
+          "expr": "reth_sync_block_validation_state_root_duration{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -3099,7 +3099,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_sync_execution_execution_duration{$instance_label=\"$instance\"}",
+          "expr": "reth_sync_execution_execution_duration{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3204,7 +3204,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_sync_caching_account_cache_hits{$instance_label=\"$instance\"} / (reth_sync_caching_account_cache_hits{$instance_label=\"$instance\"} + reth_sync_caching_account_cache_misses{$instance_label=\"$instance\"})",
+          "expr": "reth_sync_caching_account_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_sync_caching_account_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_sync_caching_account_cache_misses{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3221,7 +3221,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_sync_caching_storage_cache_hits{$instance_label=\"$instance\"} / (reth_sync_caching_storage_cache_hits{$instance_label=\"$instance\"} + reth_sync_caching_storage_cache_misses{$instance_label=\"$instance\"})",
+          "expr": "reth_sync_caching_storage_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_sync_caching_storage_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_sync_caching_storage_cache_misses{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3238,7 +3238,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_sync_caching_code_cache_hits{$instance_label=\"$instance\"} / (reth_sync_caching_code_cache_hits{$instance_label=\"$instance\"} + reth_sync_caching_code_cache_misses{$instance_label=\"$instance\"})",
+          "expr": "reth_sync_caching_code_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_sync_caching_code_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_sync_caching_code_cache_misses{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3344,7 +3344,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_sync_block_validation_trie_input_duration{$instance_label=\"$instance\", quantile=~\"(0|0.5|0.9|0.95|1)\"}",
+          "expr": "reth_sync_block_validation_trie_input_duration{namespace=~\"$namespace\", instance=~\"$instance\", quantile=~\"(0|0.5|0.9|0.95|1)\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3475,7 +3475,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "reth_sync_caching_precompile_cache_hits{$instance_label=\"$instance\"} / (reth_sync_caching_precompile_cache_hits{$instance_label=\"$instance\"} + reth_sync_caching_precompile_cache_misses{$instance_label=\"$instance\"})",
+          "expr": "reth_sync_caching_precompile_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_sync_caching_precompile_cache_hits{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_sync_caching_precompile_cache_misses{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -3593,7 +3593,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min by (quantile) (reth_sync_block_validation_state_root_histogram{$instance_label=\"$instance\"})",
+          "expr": "min by (quantile) (reth_sync_block_validation_state_root_histogram{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": false,
           "legendFormat": "p{{quantile}}",
           "range": true,
@@ -3694,7 +3694,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min(reth_tree_root_sparse_trie_account_cache_hits_sum{$instance_label=\"$instance\"} / (reth_tree_root_sparse_trie_account_cache_hits_sum{$instance_label=\"$instance\"} + reth_tree_root_sparse_trie_account_cache_misses_sum{$instance_label=\"$instance\"}))",
+          "expr": "min(reth_tree_root_sparse_trie_account_cache_hits_sum{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_tree_root_sparse_trie_account_cache_hits_sum{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_tree_root_sparse_trie_account_cache_misses_sum{namespace=~\"$namespace\", instance=~\"$instance\"}))",
           "instant": false,
           "legendFormat": "Hit %",
           "range": true,
@@ -3795,7 +3795,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min(reth_tree_root_sparse_trie_storage_cache_hits_sum{$instance_label=\"$instance\"} / (reth_tree_root_sparse_trie_storage_cache_hits_sum{$instance_label=\"$instance\"} + reth_tree_root_sparse_trie_storage_cache_misses_sum{$instance_label=\"$instance\"}))",
+          "expr": "min(reth_tree_root_sparse_trie_storage_cache_hits_sum{namespace=~\"$namespace\", instance=~\"$instance\"} / (reth_tree_root_sparse_trie_storage_cache_hits_sum{namespace=~\"$namespace\", instance=~\"$instance\"} + reth_tree_root_sparse_trie_storage_cache_misses_sum{namespace=~\"$namespace\", instance=~\"$instance\"}))",
           "instant": false,
           "legendFormat": "Hit %",
           "range": true,
@@ -3896,7 +3896,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min by (quantile) (reth_trie_proof_task_account_worker_idle_time_seconds{$instance_label=\"$instance\"})",
+          "expr": "min by (quantile) (reth_trie_proof_task_account_worker_idle_time_seconds{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": false,
           "legendFormat": "p{{quantile}}",
           "range": true,
@@ -3996,7 +3996,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min by (quantile) (reth_trie_proof_task_storage_worker_idle_time_seconds{$instance_label=\"$instance\"})",
+          "expr": "min by (quantile) (reth_trie_proof_task_storage_worker_idle_time_seconds{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": false,
           "legendFormat": "p{{quantile}}",
           "range": true,
@@ -4096,7 +4096,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min by (quantile) (reth_sparse_state_trie_multiproof_total_account_nodes{$instance_label=\"$instance\"})",
+          "expr": "min by (quantile) (reth_sparse_state_trie_multiproof_total_account_nodes{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": false,
           "legendFormat": "p{{quantile}}",
           "range": true,
@@ -4196,7 +4196,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min by (quantile) (reth_sparse_state_trie_multiproof_total_storage_nodes{$instance_label=\"$instance\"})",
+          "expr": "min by (quantile) (reth_sparse_state_trie_multiproof_total_storage_nodes{namespace=~\"$namespace\", instance=~\"$instance\"})",
           "instant": false,
           "legendFormat": "p{{quantile}}",
           "range": true,
@@ -4309,7 +4309,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(rate(reth_database_transaction_close_duration_seconds_sum{$instance_label=\"$instance\", outcome=\"commit\"}[$__rate_interval]) / rate(reth_database_transaction_close_duration_seconds_count{$instance_label=\"$instance\", outcome=\"commit\"}[$__rate_interval]) >= 0)",
+          "expr": "avg(rate(reth_database_transaction_close_duration_seconds_sum{namespace=~\"$namespace\", instance=~\"$instance\", outcome=\"commit\"}[$__rate_interval]) / rate(reth_database_transaction_close_duration_seconds_count{namespace=~\"$namespace\", instance=~\"$instance\", outcome=\"commit\"}[$__rate_interval]) >= 0)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "Commit time",
@@ -4399,7 +4399,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(max_over_time(reth_database_transaction_close_duration_seconds{$instance_label=\"$instance\", outcome=\"commit\"}[$__rate_interval])) by (quantile)",
+          "expr": "avg(max_over_time(reth_database_transaction_close_duration_seconds{namespace=~\"$namespace\", instance=~\"$instance\", outcome=\"commit\"}[$__rate_interval])) by (quantile)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{quantile}}",
@@ -4499,7 +4499,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(reth_database_transaction_open_duration_seconds_sum{$instance_label=\"$instance\", outcome!=\"\"}[$__rate_interval]) / rate(reth_database_transaction_open_duration_seconds_count{$instance_label=\"$instance\", outcome!=\"\"}[$__rate_interval])) by (outcome, mode)",
+          "expr": "sum(rate(reth_database_transaction_open_duration_seconds_sum{namespace=~\"$namespace\", instance=~\"$instance\", outcome!=\"\"}[$__rate_interval]) / rate(reth_database_transaction_open_duration_seconds_count{namespace=~\"$namespace\", instance=~\"$instance\", outcome!=\"\"}[$__rate_interval])) by (outcome, mode)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{mode}}, {{outcome}}",
@@ -4598,7 +4598,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(max_over_time(reth_database_transaction_open_duration_seconds{$instance_label=\"$instance\", outcome!=\"\", quantile=\"1\"}[$__interval])) by (outcome, mode)",
+          "expr": "max(max_over_time(reth_database_transaction_open_duration_seconds{namespace=~\"$namespace\", instance=~\"$instance\", outcome!=\"\", quantile=\"1\"}[$__interval])) by (outcome, mode)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{mode}}, {{outcome}}",
@@ -4732,7 +4732,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(reth_database_transaction_opened_total{$instance_label=\"$instance\", mode=\"read-write\"})",
+          "expr": "sum(reth_database_transaction_opened_total{namespace=~\"$namespace\", instance=~\"$instance\", mode=\"read-write\"})",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -4749,7 +4749,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(reth_database_transaction_closed_total{$instance_label=\"$instance\", mode=\"read-write\"})",
+          "expr": "sum(reth_database_transaction_closed_total{namespace=~\"$namespace\", instance=~\"$instance\", mode=\"read-write\"})",
           "format": "time_series",
           "instant": false,
           "legendFormat": "Closed {{mode}}",
@@ -4893,7 +4893,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "reth_database_transaction_opened_total{$instance_label=\"$instance\", mode=\"read-only\"}",
+          "expr": "reth_database_transaction_opened_total{namespace=~\"$namespace\", instance=~\"$instance\", mode=\"read-only\"}",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -4911,7 +4911,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum(reth_database_transaction_closed_total{$instance_label=\"$instance\", mode=\"read-only\"})",
+          "expr": "sum(reth_database_transaction_closed_total{namespace=~\"$namespace\", instance=~\"$instance\", mode=\"read-only\"})",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -5000,7 +5000,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_db_table_size{$instance_label=\"$instance\"}",
+          "expr": "reth_db_table_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{table}}",
           "range": true,
@@ -5102,7 +5102,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(max_over_time(reth_database_operation_large_value_duration_seconds{$instance_label=\"$instance\", quantile=\"1\"}[$__interval]) > 0) by (table)",
+          "expr": "max(max_over_time(reth_database_operation_large_value_duration_seconds{namespace=~\"$namespace\", instance=~\"$instance\", quantile=\"1\"}[$__interval]) > 0) by (table)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{table}}",
@@ -5175,7 +5175,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "sum by (type) ( reth_db_table_pages{$instance_label=\"$instance\"} )",
+          "expr": "sum by (type) ( reth_db_table_pages{namespace=~\"$namespace\", instance=~\"$instance\"} )",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -5276,7 +5276,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (job) ( reth_db_table_size{$instance_label=\"$instance\"} )",
+          "expr": "sum by (job) ( reth_db_table_size{namespace=~\"$namespace\", instance=~\"$instance\"} )",
           "legendFormat": "Size ({{job}})",
           "range": true,
           "refId": "A"
@@ -5376,7 +5376,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(reth_db_freelist{$instance_label=\"$instance\"}) by (job)",
+          "expr": "sum(reth_db_freelist{namespace=~\"$namespace\", instance=~\"$instance\"}) by (job)",
           "legendFormat": "Pages ({{job}})",
           "range": true,
           "refId": "A"
@@ -5531,7 +5531,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sort_desc(reth_db_table_pages{$instance_label=\"$instance\", type=\"overflow\"} != 0)",
+          "expr": "sort_desc(reth_db_table_pages{namespace=~\"$namespace\", instance=~\"$instance\", type=\"overflow\"} != 0)",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -5620,7 +5620,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_static_files_segment_size{$instance_label=\"$instance\"}",
+          "expr": "reth_static_files_segment_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "interval": "",
           "legendFormat": "{{segment}}",
           "range": true,
@@ -5764,7 +5764,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "reth_static_files_segment_entries{$instance_label=\"$instance\"}",
+          "expr": "reth_static_files_segment_entries{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -5909,7 +5909,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "reth_static_files_segment_files{$instance_label=\"$instance\"}",
+          "expr": "reth_static_files_segment_files{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -6011,7 +6011,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (job) ( reth_static_files_segment_size{$instance_label=\"$instance\"} )",
+          "expr": "sum by (job) ( reth_static_files_segment_size{namespace=~\"$namespace\", instance=~\"$instance\"} )",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -6111,7 +6111,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "max(max_over_time(reth_static_files_jar_provider_write_duration_seconds{$instance_label=\"$instance\", operation=\"commit-writer\", quantile=\"1\"}[$__interval]) > 0) by (segment)",
+          "expr": "max(max_over_time(reth_static_files_jar_provider_write_duration_seconds{namespace=~\"$namespace\", instance=~\"$instance\", operation=\"commit-writer\", quantile=\"1\"}[$__interval]) > 0) by (segment)",
           "legendFormat": "{{segment}}",
           "range": true,
           "refId": "A"
@@ -6198,7 +6198,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_table_size{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_table_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "{{table}}",
           "range": true,
           "refId": "A"
@@ -6209,7 +6209,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_wal_size{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_wal_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "WAL",
           "range": true,
           "refId": "B"
@@ -6282,7 +6282,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_table_entries{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_table_entries{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "legendFormat": "__auto",
           "range": true,
@@ -6397,7 +6397,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_pending_compaction_bytes{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_pending_compaction_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "legendFormat": "__auto",
           "range": true,
@@ -6533,7 +6533,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (job) ( reth_rocksdb_table_size{$instance_label=\"$instance\"} ) + (sum by (job) ( reth_rocksdb_wal_size{$instance_label=\"$instance\"} ) or vector(0))",
+          "expr": "sum by (job) ( reth_rocksdb_table_size{namespace=~\"$namespace\", instance=~\"$instance\"} ) + (sum by (job) ( reth_rocksdb_wal_size{namespace=~\"$namespace\", instance=~\"$instance\"} ) or vector(0))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -6628,7 +6628,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_pending_compaction_bytes{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_pending_compaction_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "{{table}}",
           "range": true,
           "refId": "A"
@@ -6741,7 +6741,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_blockchain_tree_canonical_chain_height{$instance_label=\"$instance\"}",
+          "expr": "reth_blockchain_tree_canonical_chain_height{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Canonical chain height",
           "range": true,
@@ -6841,7 +6841,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_blockchain_tree_in_mem_state_num_blocks{$instance_label=\"$instance\"}",
+          "expr": "reth_blockchain_tree_in_mem_state_num_blocks{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Buffered blocks",
           "range": true,
@@ -6941,7 +6941,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "increase(reth_blockchain_tree_reorgs{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "increase(reth_blockchain_tree_reorgs{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -7041,7 +7041,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_blockchain_tree_latest_reorg_depth{$instance_label=\"$instance\"}",
+          "expr": "reth_blockchain_tree_latest_reorg_depth{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -7181,7 +7181,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum(reth_rpc_server_connections_connections_opened_total{$instance_label=\"$instance\"} - reth_rpc_server_connections_connections_closed_total{$instance_label=\"$instance\"}) by (transport)",
+          "expr": "sum(reth_rpc_server_connections_connections_opened_total{namespace=~\"$namespace\", instance=~\"$instance\"} - reth_rpc_server_connections_connections_closed_total{namespace=~\"$namespace\", instance=~\"$instance\"}) by (transport)",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -7273,7 +7273,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(max_over_time(reth_rpc_server_connections_request_time_seconds{$instance_label=\"$instance\"}[$__rate_interval]) > 0) by (quantile)",
+          "expr": "avg(max_over_time(reth_rpc_server_connections_request_time_seconds{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval]) > 0) by (quantile)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "__auto",
@@ -7374,7 +7374,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "max(max_over_time(reth_rpc_server_calls_time_seconds{$instance_label=\"$instance\"}[$__rate_interval])) by (method) > 0",
+          "expr": "max(max_over_time(reth_rpc_server_calls_time_seconds{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])) by (method) > 0",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -7463,7 +7463,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg(max_over_time(reth_rpc_server_calls_time_seconds{$instance_label=\"$instance\"}[$__rate_interval]) > 0) by (quantile)",
+          "expr": "avg(max_over_time(reth_rpc_server_calls_time_seconds{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval]) > 0) by (quantile)",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{quantile}}",
@@ -7601,7 +7601,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_cached_count{$instance_label=\"$instance\", cache=\"headers\"}",
+          "expr": "reth_rpc_eth_cache_cached_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"headers\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -7617,7 +7617,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_queued_consumers_count{$instance_label=\"$instance\", cache=\"receipts\"}",
+          "expr": "reth_rpc_eth_cache_queued_consumers_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"receipts\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7634,7 +7634,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_queued_consumers_count{$instance_label=\"$instance\", cache=\"headers\"}",
+          "expr": "reth_rpc_eth_cache_queued_consumers_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"headers\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7651,7 +7651,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_queued_consumers_count{$instance_label=\"$instance\", cache=\"blocks\"}",
+          "expr": "reth_rpc_eth_cache_queued_consumers_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"blocks\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7668,7 +7668,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_memory_usage{$instance_label=\"$instance\", cache=\"blocks\"}",
+          "expr": "reth_rpc_eth_cache_memory_usage{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"blocks\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7685,7 +7685,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_cached_count{$instance_label=\"$instance\", cache=\"receipts\"}",
+          "expr": "reth_rpc_eth_cache_cached_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"receipts\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7702,7 +7702,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_memory_usage{$instance_label=\"$instance\", cache=\"receipts\"}",
+          "expr": "reth_rpc_eth_cache_memory_usage{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"receipts\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7719,7 +7719,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "reth_rpc_eth_cache_cached_count{$instance_label=\"$instance\", cache=\"blocks\"}",
+          "expr": "reth_rpc_eth_cache_cached_count{namespace=~\"$namespace\", instance=~\"$instance\", cache=\"blocks\"}",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -7823,7 +7823,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(rate(reth_rpc_server_calls_successful_total{$instance_label=\"$instance\"}[$__rate_interval])) by (method) > 0",
+          "expr": "sum(rate(reth_rpc_server_calls_successful_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])) by (method) > 0",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -7961,7 +7961,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_headers_total_downloaded{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_headers_total_downloaded{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Downloaded",
           "range": true,
           "refId": "A"
@@ -7972,7 +7972,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_headers_total_flushed{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_headers_total_flushed{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Flushed",
           "range": true,
@@ -7984,7 +7984,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_headers_total_downloaded{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_headers_total_downloaded{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "legendFormat": "Downloaded/s",
@@ -7997,7 +7997,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_headers_total_flushed{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_headers_total_flushed{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Flushed/s",
           "range": true,
@@ -8098,7 +8098,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_headers_timeout_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_headers_timeout_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "Request timed out",
           "range": true,
           "refId": "A"
@@ -8109,7 +8109,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_headers_unexpected_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_headers_unexpected_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Unexpected error",
           "range": true,
@@ -8121,7 +8121,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_headers_validation_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_headers_validation_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Invalid response",
           "range": true,
@@ -8221,7 +8221,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_headers_in_flight_requests{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_headers_in_flight_requests{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "In flight requests",
           "range": true,
           "refId": "A"
@@ -8232,7 +8232,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_network_connected_peers{$instance_label=\"$instance\"}",
+          "expr": "reth_network_connected_peers{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Connected peers",
           "range": true,
@@ -8380,7 +8380,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_total_downloaded{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_total_downloaded{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Downloaded",
           "range": true,
           "refId": "A"
@@ -8391,7 +8391,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_total_flushed{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_total_flushed{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Flushed",
           "range": true,
@@ -8403,7 +8403,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_bodies_total_flushed{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_bodies_total_flushed{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Flushed/s",
           "range": true,
@@ -8415,7 +8415,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_bodies_total_downloaded{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_bodies_total_downloaded{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Downloaded/s",
           "range": true,
@@ -8427,7 +8427,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_buffered_responses{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_buffered_responses{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Buffered responses",
           "range": true,
@@ -8439,7 +8439,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_buffered_blocks{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_buffered_blocks{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Buffered blocks",
           "range": true,
@@ -8451,7 +8451,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_queued_blocks{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_queued_blocks{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Queued blocks",
           "range": true,
@@ -8549,7 +8549,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_bodies_timeout_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_bodies_timeout_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "legendFormat": "Request timed out",
           "range": true,
           "refId": "A"
@@ -8560,7 +8560,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_bodies_unexpected_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_bodies_unexpected_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Unexpected error",
           "range": true,
@@ -8572,7 +8572,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "rate(reth_downloaders_bodies_validation_errors{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_downloaders_bodies_validation_errors{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "hide": false,
           "legendFormat": "Invalid response",
           "range": true,
@@ -8672,7 +8672,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_in_flight_requests{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_in_flight_requests{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "In flight requests",
           "range": true,
           "refId": "A"
@@ -8683,7 +8683,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_network_connected_peers{$instance_label=\"$instance\"}",
+          "expr": "reth_network_connected_peers{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Connected peers",
           "range": true,
@@ -8801,7 +8801,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_buffered_blocks_size_bytes{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_buffered_blocks_size_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Buffered blocks size ",
           "range": true,
@@ -8813,7 +8813,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_buffered_blocks{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_buffered_blocks{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Buffered blocks",
           "range": true,
@@ -8931,7 +8931,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_downloaders_bodies_response_response_size_bytes{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_response_response_size_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Response size",
           "range": true,
@@ -8943,7 +8943,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_response_response_length{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_response_response_length{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "legendFormat": "Individual response length (number of bodies in response)",
           "range": true,
@@ -8955,7 +8955,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_downloaders_bodies_response_response_size_bytes / reth_downloaders_bodies_response_response_length{$instance_label=\"$instance\"}",
+          "expr": "reth_downloaders_bodies_response_response_size_bytes / reth_downloaders_bodies_response_response_length{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Mean body size in response",
@@ -9097,7 +9097,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(reth_network_eth_headers_requests_received_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_network_eth_headers_requests_received_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -9228,7 +9228,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(reth_network_eth_receipts_requests_received_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_network_eth_receipts_requests_received_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -9359,7 +9359,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(reth_network_eth_bodies_requests_received_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_network_eth_bodies_requests_received_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -9490,7 +9490,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "rate(reth_network_eth_node_data_requests_received_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_network_eth_node_data_requests_received_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -9607,7 +9607,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_payloads_active_jobs{$instance_label=\"$instance\"}",
+          "expr": "reth_payloads_active_jobs{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Active Jobs",
           "range": true,
           "refId": "A"
@@ -9706,7 +9706,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_payloads_initiated_jobs{$instance_label=\"$instance\"}",
+          "expr": "reth_payloads_initiated_jobs{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Initiated Jobs",
           "range": true,
           "refId": "A"
@@ -9805,7 +9805,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_payloads_failed_jobs{$instance_label=\"$instance\"}",
+          "expr": "reth_payloads_failed_jobs{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "legendFormat": "Failed Jobs",
           "range": true,
           "refId": "A"
@@ -9918,7 +9918,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_pruner_duration_seconds_sum{$instance_label=\"$instance\"}[$__rate_interval]) / rate(reth_pruner_duration_seconds_count{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_pruner_duration_seconds_sum{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval]) / rate(reth_pruner_duration_seconds_count{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -10019,7 +10019,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "rate(reth_pruner_segments_duration_seconds_sum{$instance_label=\"$instance\"}[$__rate_interval]) / rate(reth_pruner_segments_duration_seconds_count{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_pruner_segments_duration_seconds_sum{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval]) / rate(reth_pruner_segments_duration_seconds_count{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "{{segment}}",
           "range": true,
@@ -10120,7 +10120,7 @@
           },
           "description": "Archive and full nodes prune headers, transactions and receipts in MDBX (hot db) after they have been written to static files (cold db). Full nodes additionally prune history indices.",
           "editorMode": "code",
-          "expr": "reth_pruner_segments_highest_pruned_block{$instance_label=\"$instance\"}",
+          "expr": "reth_pruner_segments_highest_pruned_block{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": false,
           "legendFormat": "{{segment}}",
           "range": true,
@@ -10246,7 +10246,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_active{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_active{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": false,
           "legendFormat": "Active",
           "range": true,
@@ -10258,7 +10258,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_allocated{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_allocated{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Allocated",
@@ -10271,7 +10271,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_mapped{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_mapped{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Mapped",
@@ -10284,7 +10284,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_metadata{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_metadata{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Metadata",
@@ -10297,7 +10297,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_resident{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_resident{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Resident",
@@ -10310,7 +10310,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_jemalloc_retained{$instance_label=\"$instance\"}",
+          "expr": "reth_jemalloc_retained{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Retained",
@@ -10412,7 +10412,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_process_resident_memory_bytes{$instance_label=\"$instance\"}",
+          "expr": "reth_process_resident_memory_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": false,
           "legendFormat": "Resident",
           "range": true,
@@ -10513,7 +10513,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "avg(rate(reth_process_cpu_seconds_total{$instance_label=\"$instance\"}[1m]))",
+          "expr": "avg(rate(reth_process_cpu_seconds_total{namespace=~\"$namespace\", instance=~\"$instance\"}[1m]))",
           "instant": false,
           "legendFormat": "Process",
           "range": true,
@@ -10614,7 +10614,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "builder",
-          "expr": "reth_process_open_fds{$instance_label=\"$instance\"}",
+          "expr": "reth_process_open_fds{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "instant": false,
           "legendFormat": "Open",
           "range": true,
@@ -10715,7 +10715,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_executor_spawn_critical_tasks_total{$instance_label=\"$instance\"}- reth_executor_spawn_finished_critical_tasks_total{$instance_label=\"$instance\"}",
+          "expr": "reth_executor_spawn_critical_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}- reth_executor_spawn_finished_critical_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Tasks running",
@@ -10832,7 +10832,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(reth_executor_spawn_regular_tasks_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_executor_spawn_regular_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -10848,7 +10848,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_executor_spawn_regular_tasks_total{$instance_label=\"$instance\"} - reth_executor_spawn_finished_regular_tasks_total{$instance_label=\"$instance\"}",
+          "expr": "reth_executor_spawn_regular_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"} - reth_executor_spawn_finished_regular_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Tasks running",
@@ -10965,7 +10965,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(reth_executor_spawn_regular_blocking_tasks_total{$instance_label=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(reth_executor_spawn_regular_blocking_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}[$__rate_interval])",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -10981,7 +10981,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_executor_spawn_regular_blocking_tasks_total{$instance_label=\"$instance\"} - reth_executor_spawn_finished_regular_blocking_tasks_total{$instance_label=\"$instance\"}",
+          "expr": "reth_executor_spawn_regular_blocking_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"} - reth_executor_spawn_finished_regular_blocking_tasks_total{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "Tasks running",
@@ -11088,7 +11088,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "reth_exex_notifications_sent_total{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_notifications_sent_total{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "legendFormat": "Total Notifications Sent",
               "range": true,
@@ -11184,7 +11184,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "reth_exex_events_sent_total{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_events_sent_total{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "legendFormat": "Total Events Sent",
               "range": true,
@@ -11280,7 +11280,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "reth_exex_manager_current_capacity{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_manager_current_capacity{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "legendFormat": "Current size",
               "range": true,
@@ -11292,7 +11292,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "max_over_time(reth_exex_manager_max_capacity{$instance_label=\"$instance\"}[1h])",
+              "expr": "max_over_time(reth_exex_manager_max_capacity{namespace=~\"$namespace\", instance=~\"$instance\"}[1h])",
               "hide": false,
               "legendFormat": "Max size",
               "range": true,
@@ -11388,7 +11388,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "reth_exex_manager_buffer_size{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_manager_buffer_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "legendFormat": "Max size",
               "range": true,
@@ -11458,7 +11458,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "builder",
-              "expr": "reth_exex_manager_num_exexs{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_manager_num_exexs{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "legendFormat": "Number of ExExs",
               "range": true,
@@ -11569,7 +11569,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "reth_exex_wal_lowest_committed_block_height{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_wal_lowest_committed_block_height{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "instant": false,
               "legendFormat": "Lowest Block",
@@ -11582,7 +11582,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "reth_exex_wal_highest_committed_block_height{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_wal_highest_committed_block_height{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "instant": false,
               "legendFormat": "Highest Block",
@@ -11680,7 +11680,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "reth_exex_wal_committed_blocks_count{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_wal_committed_blocks_count{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "instant": false,
               "legendFormat": "Committed Blocks",
@@ -11693,7 +11693,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "reth_exex_wal_notifications_count{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_wal_notifications_count{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "instant": false,
               "legendFormat": "Notifications",
@@ -11792,7 +11792,7 @@
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "reth_exex_wal_size_bytes{$instance_label=\"$instance\"}",
+              "expr": "reth_exex_wal_size_bytes{namespace=~\"$namespace\", instance=~\"$instance\"}",
               "hide": false,
               "instant": false,
               "legendFormat": "__auto",
@@ -11866,7 +11866,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_sst_size{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_sst_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "legendFormat": "__auto",
           "range": true,
@@ -11878,7 +11878,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "reth_rocksdb_memtable_size{$instance_label=\"$instance\"}",
+          "expr": "reth_rocksdb_memtable_size{namespace=~\"$namespace\", instance=~\"$instance\"}",
           "format": "table",
           "legendFormat": "__auto",
           "range": true,
@@ -11890,7 +11890,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "label_replace(reth_rocksdb_wal_size{$instance_label=\"$instance\"}, \"table\", \"WAL\", \"\", \"\")",
+          "expr": "label_replace(reth_rocksdb_wal_size{namespace=~\"$namespace\", instance=~\"$instance\"}, \"table\", \"WAL\", \"\", \"\")",
           "format": "table",
           "legendFormat": "__auto",
           "range": true,
@@ -11961,32 +11961,20 @@
   ],
   "refresh": "5s",
   "schemaVersion": 42,
-  "tags": [],
+  "tags": [
+    "reth",
+    "ethereum",
+    "sre",
+    "kubernetes"
+  ],
   "templating": {
     "list": [
       {
-        "current": {},
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${datasource}"
+        "current": {
+          "text": "Prometheus",
+          "value": "prometheus"
         },
-        "definition": "label_values(reth_info,$instance_label)",
-        "includeAll": false,
-        "label": "Instance",
-        "name": "instance",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(reth_info,$instance_label)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "sort": 1,
-        "type": "query"
-      },
-      {
-        "current": {},
+        "description": "Select the Grafana Datasource for Prometheus.",
         "includeAll": false,
         "label": "Datasource",
         "name": "datasource",
@@ -11997,24 +11985,82 @@
         "type": "datasource"
       },
       {
-        "hide": 2,
-        "label": "Instance Label",
-        "name": "instance_label",
-        "query": "instance",
-        "skipUrlSync": true,
-        "type": "constant",
         "current": {
-          "value": "instance",
-          "text": "instance",
-          "selected": false
+          "text": "Loki",
+          "value": "loki"
         },
-        "options": [
-          {
-            "value": "instance",
-            "text": "instance",
-            "selected": false
-          }
-        ]
+        "description": "Select the Grafana Datasource for Loki.",
+        "includeAll": false,
+        "label": "Loki Datasource",
+        "name": "loki_datasource",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "label_values(reth_info, namespace)",
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "namespace",
+        "options": [],
+        "query": "label_values(reth_info, namespace)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "label_values(reth_info{namespace=~\"$namespace\"}, instance)",
+        "includeAll": true,
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": "label_values(reth_info{namespace=~\"$namespace\"}, instance)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "$datasource"
+        },
+        "definition": "label_values(reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}, pod)",
+        "includeAll": true,
+        "label": "Replica",
+        "multi": true,
+        "name": "replica",
+        "options": [],
+        "query": "label_values(reth_info{namespace=~\"$namespace\", instance=~\"$instance\"}, pod)",
+        "refresh": 2,
+        "regex": "",
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
@@ -12028,5 +12074,6 @@
   "uid": "reth",
   "version": 1,
   "weekStart": "",
-  "id": null
+  "id": null,
+  "description": "Reth Ethereum Execution Client Metrics Dashboard. Features detailed views for syncing, engine API, execution, database, RPC performance, and per-replica health."
 }
